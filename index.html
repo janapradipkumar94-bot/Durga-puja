@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>শারদীয় সংগীত ও স্মৃতি | দুর্গোৎসবের পূজার গান</title>
+  <meta name="description" content="প্রবীণ ও বয়োজ্যেষ্ঠদের জন্য তৈরি শান্ত ও স্নিগ্ধ দুর্গোৎসবের গানের সম্ভার। নিজের পছন্দের পূজার গান শুনুন বড় বোতাম ও সহজ ইন্টারফেসে।">
+  <meta name="theme-color" content="#4a0e17">
+
+  <!-- Google Fonts for authentic Bengali typography and festive headers -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Hind+Siliguri:wght@400;500;600;700&family=Noto+Serif+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css?v=2.2">
+</head>
+<body class="theme-maroon">
+  <!-- Accessibility Skip Link -->
+  <a href="#main-player" class="skip-link">সরাসরি গান চালুর অংশে যান (Skip to player)</a>
+
+  <!-- Kash Phul (Autumn grass) gentle background silhouettes -->
+  <div class="kash-phul-container" aria-hidden="true" id="kashPhulContainer"></div>
+
+  <!-- Falling Lotus / Pushpanjali Petals overlay (gentle, toggleable) -->
+  <div class="petals-canvas-container" id="petalsContainer" aria-hidden="true"></div>
+
+  <div class="site-wrapper">
+    <!-- Top Alpona Festive Header Border -->
+    <header class="festive-header" role="banner">
+      <div class="alpona-top-border" aria-hidden="true">
+        <svg viewBox="0 0 1200 64" preserveAspectRatio="none" class="alpona-svg">
+          <path d="M0,0 L1200,0 L1200,32 Q1125,60 1050,32 Q975,5 900,32 Q825,60 750,32 Q675,5 600,32 Q525,60 450,32 Q375,5 300,32 Q225,60 150,32 Q75,5 0,32 Z" fill="currentColor"/>
+          <circle cx="150" cy="32" r="5" fill="#f8e4a0"/>
+          <circle cx="300" cy="32" r="5" fill="#f8e4a0"/>
+          <circle cx="450" cy="32" r="5" fill="#f8e4a0"/>
+          <circle cx="600" cy="32" r="7" fill="#f8e4a0"/>
+          <circle cx="750" cy="32" r="5" fill="#f8e4a0"/>
+          <circle cx="900" cy="32" r="5" fill="#f8e4a0"/>
+          <circle cx="1050" cy="32" r="5" fill="#f8e4a0"/>
+        </svg>
+      </div>
+
+      <!-- Quick Accessibility Toolbar for Seniors -->
+      <aside class="senior-controls-bar" aria-label="ব্যবহারকারীর সুবিধা ও সেটিংস">
+        <div class="controls-left">
+          <span class="blessing-tithi" id="todayTithiText">
+            <span class="tithi-icon">🌸</span>
+            <span>শারদোৎসবের পুণ্যলগ্নে আপনাকে জানাই আন্তরিক শুভেচ্ছা</span>
+          </span>
+        </div>
+        <div class="controls-right">
+          <!-- Ambient Sound Toggle -->
+          <button type="button" class="tool-btn" id="ambientToggleBtn" aria-pressed="false" title="মন্দিরের শান্ত ঘণ্টা ও আবহধ্বনি চালান">
+            <span class="btn-icon">🔔</span>
+            <span class="btn-text">মন্দিরের আবহধ্বনি</span>
+          </button>
+          
+          <!-- Shankha Dhwani (Conch) Button -->
+          <button type="button" class="tool-btn" id="shankhaBtn" title="পবিত্র শঙ্খধ্বনি বাজান">
+            <span class="btn-icon">🐚</span>
+            <span class="btn-text">শঙ্খধ্বনি</span>
+          </button>
+
+          <!-- Text Size Adjuster for Older Eyes -->
+          <div class="font-resizer" role="group" aria-label="লেখার মাপ পরিবর্তন">
+            <span class="font-label">লেখার মাপ:</span>
+            <button type="button" class="font-btn" id="fontDecBtn" title="লেখা ছোট করুন" aria-label="লেখা ছোট করুন">অ-</button>
+            <button type="button" class="font-btn active" id="fontResetBtn" title="সাধারণ মাপ" aria-label="সাধারণ মাপ">অ</button>
+            <button type="button" class="font-btn" id="fontIncBtn" title="লেখা বড় করুন" aria-label="লেখা বড় করুন">অ+</button>
+          </div>
+
+          <!-- Color Mode Toggle: Maroon Twilight / Golden Morning -->
+          <button type="button" class="tool-btn" id="themeToggleBtn" aria-label="রং পরিবর্তন করুন">
+            <span class="btn-icon" id="themeIcon">☀️</span>
+            <span class="btn-text" id="themeText">শরতের সকাল</span>
+          </button>
+        </div>
+      </aside>
+
+      <!-- Center Hero: Chalchitra Arch, Maa's Trinetra, and Glowing Diyas -->
+      <div class="hero-sanctum">
+        <!-- Left Traditional Diya with Flickering Flame -->
+        <div class="diya-wrapper diya-left" aria-hidden="true" title="মঙ্গল প্রদীপ">
+          <div class="diya-glow"></div>
+          <div class="flame-body">
+            <div class="flame-core"></div>
+            <div class="flame-aura"></div>
+          </div>
+          <div class="wick"></div>
+          <svg class="diya-vessel" viewBox="0 0 100 50">
+            <path d="M10,20 Q50,60 90,20 Q80,45 50,48 Q20,45 10,20 Z" fill="url(#diyaGoldGradient)"/>
+            <path d="M15,22 Q50,30 85,22 Q50,26 15,22 Z" fill="#7a121d"/>
+            <defs>
+              <linearGradient id="diyaGoldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#fceda4"/>
+                <stop offset="50%" stop-color="#d4af37"/>
+                <stop offset="100%" stop-color="#936814"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+
+        <!-- Center Motifs: Temple Halo / Prabhaboli & Trinetra -->
+        <div class="sanctum-center">
+          <div class="chalchitra-frame">
+            <!-- Stylized Temple Arch / Halo SVG -->
+            <svg class="halo-arch-svg" viewBox="0 0 340 180" aria-hidden="true">
+              <!-- Radiant Halo Rays -->
+              <g stroke="rgba(245, 214, 128, 0.45)" stroke-width="1.5" stroke-dasharray="3,3">
+                <line x1="170" y1="170" x2="30" y2="70"/>
+                <line x1="170" y1="170" x2="55" y2="40"/>
+                <line x1="170" y1="170" x2="95" y2="20"/>
+                <line x1="170" y1="170" x2="140" y2="10"/>
+                <line x1="170" y1="170" x2="170" y2="5"/>
+                <line x1="170" y1="170" x2="200" y2="10"/>
+                <line x1="170" y1="170" x2="245" y2="20"/>
+                <line x1="170" y1="170" x2="285" y2="40"/>
+                <line x1="170" y1="170" x2="310" y2="70"/>
+              </g>
+              <!-- Outer Arch Frame -->
+              <path d="M 20,180 C 20,60 320,60 320,180" fill="none" stroke="url(#goldStroke)" stroke-width="4.5"/>
+              <path d="M 32,180 C 32,75 308,75 308,180" fill="none" stroke="rgba(247, 222, 142, 0.5)" stroke-width="1.5"/>
+              <!-- Lotus Petal Crown -->
+              <path d="M170,18 C160,35 150,55 170,68 C190,55 180,35 170,18 Z" fill="url(#diyaGoldGradient)"/>
+              <defs>
+                <linearGradient id="goldStroke" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#b8860b"/>
+                  <stop offset="50%" stop-color="#ffec99"/>
+                  <stop offset="100%" stop-color="#b8860b"/>
+                </linearGradient>
+              </defs>
+            </svg>
+
+            <!-- Trinetra & Sindoor Tilak SVG -->
+            <div class="trinetra-box" aria-hidden="true">
+              <svg viewBox="0 0 160 110" class="trinetra-svg">
+                <!-- Third Eye (Trinetra) in Center -->
+                <path d="M 80,10 C 68,26 68,36 80,48 C 92,36 92,26 80,10 Z" fill="#ffffff" stroke="#c0392b" stroke-width="2"/>
+                <circle cx="80" cy="29" r="4.5" fill="#88101a"/>
+                <circle cx="80" cy="27" r="1.5" fill="#ffffff"/>
+                <!-- Red Sindoor Crescent Bindi -->
+                <circle cx="80" cy="56" r="6" fill="#be1e2d"/>
+
+                <!-- Left Eye of Divine Mother -->
+                <path d="M 15,62 C 35,46 55,50 68,64 C 55,76 35,74 15,62 Z" fill="#ffffff" stroke="#3a060e" stroke-width="2"/>
+                <circle cx="45" cy="62" r="7" fill="#2d050c"/>
+                <circle cx="43" cy="60" r="2" fill="#ffffff"/>
+                <!-- Left Eyebrow -->
+                <path d="M 10,50 Q 40,36 68,52" fill="none" stroke="#2d050c" stroke-width="3" stroke-linecap="round"/>
+
+                <!-- Right Eye of Divine Mother -->
+                <path d="M 145,62 C 125,46 105,50 92,64 C 105,76 125,74 145,62 Z" fill="#ffffff" stroke="#3a060e" stroke-width="2"/>
+                <circle cx="115" cy="62" r="7" fill="#2d050c"/>
+                <circle cx="113" cy="60" r="2" fill="#ffffff"/>
+                <!-- Right Eyebrow -->
+                <path d="M 150,50 Q 120,36 92,52" fill="none" stroke="#2d050c" stroke-width="3" stroke-linecap="round"/>
+
+                <!-- Delicate Nose Ring (Noth) hint -->
+                <circle cx="86" cy="80" r="9" fill="none" stroke="#e0b84c" stroke-width="2"/>
+                <circle cx="78" cy="84" r="2.5" fill="#c0392b"/>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Main Title & Welcoming Tagline -->
+          <h1 class="main-title">
+            <span class="sub-greeting">মা আসছেন ঘরে ঘরে</span>
+            <span class="festive-heading">শারদীয় পূজার গান</span>
+          </h1>
+          <p class="tagline">
+            আপনার পছন্দের পুরনো পূজার গান শুনুন নিশ্চিন্তে। মা-বাবার সহজ ব্যবহারের জন্য বিশেষ যত্ন নিয়ে তৈরি।
+          </p>
+          <div class="creator-badge-hero">
+            <span class="creator-icon">✨</span>
+            <span class="creator-label">পরিকল্পনা ও রূপায়ণে:</span>
+            <strong class="creator-author">প্রদীপ কুমার জানা (Pradip Kumar Jana)</strong>
+          </div>
+        </div>
+
+        <!-- Right Traditional Diya with Flickering Flame -->
+        <div class="diya-wrapper diya-right" aria-hidden="true" title="মঙ্গল প্রদীপ">
+          <div class="diya-glow"></div>
+          <div class="flame-body">
+            <div class="flame-core"></div>
+            <div class="flame-aura"></div>
+          </div>
+          <div class="wick"></div>
+          <svg class="diya-vessel" viewBox="0 0 100 50">
+            <path d="M10,20 Q50,60 90,20 Q80,45 50,48 Q20,45 10,20 Z" fill="url(#diyaGoldGradient)"/>
+            <path d="M15,22 Q50,30 85,22 Q50,26 15,22 Z" fill="#7a121d"/>
+          </svg>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="content-container" id="main-player">
+
+      <!-- The Grand Maroon & Gold Music Player Card -->
+      <section class="player-grand-card" aria-label="প্রধান অডিও প্লেয়ার">
+        <!-- Decorative Alpona Corner Ornaments -->
+        <div class="corner-alpona top-left" aria-hidden="true"></div>
+        <div class="corner-alpona top-right" aria-hidden="true"></div>
+        <div class="corner-alpona bottom-left" aria-hidden="true"></div>
+        <div class="corner-alpona bottom-right" aria-hidden="true"></div>
+
+        <!-- Now Playing Header with Integrated Smart Time & Mood -->
+        <div class="now-playing-header">
+          <div class="now-playing-status-wrap">
+            <span class="status-indicator" id="playbackStatusDot"></span>
+            <span class="status-label" id="playbackStatusLabel">প্লেয়ার প্রস্তুত</span>
+          </div>
+
+          <div class="smart-player-controls-strip">
+            <span class="smart-slot-badge" id="hubSlotBadge" title="বর্তমান সময় অনুযায়ী স্বয়ংক্রিয় নির্বাচন">
+              <span id="hubSlotIcon">🌌</span>
+              <span id="hubSlotName">গভীর রাত (11pm-4am)</span>
+            </span>
+            <span class="smart-mood-pill" id="hubMoodPill" title="বর্তমান মেজাজ">
+              <span id="hubMoodIcon">❤️</span>
+              <span id="hubMoodText">ধ্যানমগ্ন • গভীর প্রশান্তি</span>
+            </span>
+            <button type="button" class="smart-mode-toggle-btn active" id="smartModeToggleBtn" title="স্মার্ট মোড চালু বা বন্ধ করুন">
+              <span id="smartModeIcon">⚡</span>
+              <span id="smartModeText">স্মার্ট মোড (চালু)</span>
+            </button>
+            <button type="button" class="smart-mini-btn" id="openPrefsBtn" title="সংগীত পছন্দ নির্ধারণ করুন">🎚️ পছন্দ</button>
+            <button type="button" class="smart-mini-btn" id="openTimeSimBtn" title="সময় পরিবর্তন করে পরীক্ষা করুন">⏱️ সময়</button>
+            <button type="button" class="smart-mini-btn" id="openAdminBtn" title="অ্যাডমিন ড্যাশবোর্ড">⚙️ অ্যাডমিন</button>
+          </div>
+        </div>
+
+        <!-- Track Information Display (Large, High Contrast) -->
+        <div class="track-display-panel">
+          <div class="track-vinyl-art" id="vinylArt">
+            <div class="vinyl-disc" id="vinylDisc">
+              <div class="vinyl-center">
+                <span class="vinyl-om">ॐ</span>
+              </div>
+            </div>
+            <!-- Soundwave ripple animation when playing -->
+            <div class="music-wave-bars" id="musicWaveBars" aria-hidden="true">
+              <span class="wave-bar"></span>
+              <span class="wave-bar"></span>
+              <span class="wave-bar"></span>
+              <span class="wave-bar"></span>
+              <span class="wave-bar"></span>
+            </div>
+          </div>
+
+          <div class="track-info">
+            <h2 class="track-title" id="currentTrackTitle">শারদীয় পূজার গান ও আগমনী মহোৎসব</h2>
+            <p class="track-meta" id="currentTrackMeta">শারদীয় দুর্গোৎসবের শ্রেষ্ঠ আধুনিক ও সনাতন পূজার গান সম্ভার</p>
+            <div class="track-tags" id="trackTags">
+              <span class="tag-pill" id="trackSourceBadge">একক গান প্লেয়ার</span>
+              <span class="tag-pill smart-blend-pill" id="hubBlendBadge">✨ ১০০% উপযোগী</span>
+              <button type="button" class="tag-pill toggle-video-pill" id="toggleVideoBtn" style="display: none;">📺 ভিডিও দেখুন</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Expandable Time Simulator Bar inside Grand Player Card -->
+        <div class="time-simulator-bar hidden" id="timeSimulatorBar">
+          <div class="sim-header">
+            <span>⏱️ <strong>সময় পরিবর্তন করুন:</strong> দিনের বিভিন্ন প্রহরের সুর শুনে দেখুন:</span>
+            <button type="button" class="close-sim-btn" id="closeSimBtn" aria-label="বন্ধ করুন">✕</button>
+          </div>
+          <div class="sim-chips-scroll">
+            <button type="button" class="sim-chip" data-hour="5.0">🌅 ভোর (৫:০০ AM)</button>
+            <button type="button" class="sim-chip" data-hour="9.0">☀️ সকাল (৯:০০ AM)</button>
+            <button type="button" class="sim-chip" data-hour="13.0">🌤️ দুপুর (১:০০ PM)</button>
+            <button type="button" class="sim-chip" data-hour="16.5">🌇 বিকেল (৪:৩০ PM)</button>
+            <button type="button" class="sim-chip" data-hour="18.5">🌆 সন্ধ্যা (৬:৩০ PM)</button>
+            <button type="button" class="sim-chip" data-hour="21.5">🌙 রাত (৯:৩০ PM)</button>
+            <button type="button" class="sim-chip" data-hour="1.0">🌌 গভীর রাত (১:০০ AM)</button>
+            <button type="button" class="sim-chip active real-time-chip" id="simRealTimeBtn" data-hour="real">⏰ বর্তমান আসল সময়</button>
+          </div>
+        </div>
+
+        <!-- Manual Mode Search & Filter Toolbar inside Grand Player Card (shown when in Manual Mode) -->
+        <div class="manual-toolbar hidden" id="manualToolbar">
+          <div class="manual-search-box">
+            <input type="text" id="manualSearchInput" class="manual-search-input" placeholder="গান, শিল্পী বা গানের কথা খুঁজুন..." />
+          </div>
+          <div class="manual-filters-scroll">
+            <button type="button" class="filter-chip active" data-filter="all">সকল গান</button>
+            <button type="button" class="filter-chip" data-filter="agomoni">আগমনী</button>
+            <button type="button" class="filter-chip" data-filter="romantic">রোমান্টিক</button>
+            <button type="button" class="filter-chip" data-filter="peaceful">শান্ত সুর</button>
+            <button type="button" class="filter-chip" data-filter="devotional">ভক্তিগীতি</button>
+            <button type="button" class="filter-chip" data-filter="srikanto">শ্রীকান্ত</button>
+            <button type="button" class="filter-chip" data-filter="mita">মিতা চ্যাটার্জী</button>
+          </div>
+        </div>
+
+        <!-- Embedded YouTube Video Container (Smooth slide / toggle) -->
+        <div class="yt-player-container" id="ytPlayerContainer">
+          <div class="yt-player-wrapper" id="ytPlayerWrapper">
+            <div id="ytPlayerFrame"></div>
+          </div>
+        </div>
+
+        <!-- Audio Seek Bar / Timeline (Thick, High-Touch) -->
+        <div class="timeline-wrapper">
+          <div class="time-display" id="currentTimeDisplay" aria-label="বর্তমান সময়">0:00</div>
+          <div class="slider-container">
+            <input 
+              type="range" 
+              class="custom-slider seek-slider" 
+              id="seekBar" 
+              min="0" 
+              max="100" 
+              value="0" 
+              step="0.1"
+              aria-label="গানের সময় এগিয়ে নেওয়া বা পিছিয়ে নেওয়া"
+            >
+            <div class="slider-fill" id="seekFill"></div>
+          </div>
+          <div class="time-display" id="totalDurationDisplay" aria-label="মোট সময়">0:00</div>
+        </div>
+
+        <!-- Main Giant Controls (Designed for Older Eyes & Gentle Touch) -->
+        <div class="giant-controls-container" role="toolbar" aria-label="প্লেয়ার নিয়ন্ত্রণ">
+          
+          <!-- Shuffle Button -->
+          <button 
+            type="button" 
+            class="control-btn secondary-btn" 
+            id="shuffleBtn" 
+            aria-pressed="false"
+            title="এলোমেলোভাবে বাজান (Shuffle)"
+            aria-label="এলোমেলোভাবে বাজান"
+          >
+            <svg viewBox="0 0 24 24" class="ctrl-icon"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z" fill="currentColor"/></svg>
+            <span class="ctrl-label">শাফল</span>
+          </button>
+
+          <!-- Previous Track Button -->
+          <button 
+            type="button" 
+            class="control-btn nav-btn" 
+            id="prevBtn" 
+            title="আগের গান (Previous track)"
+            aria-label="আগের গান"
+          >
+            <svg viewBox="0 0 24 24" class="ctrl-icon"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z" fill="currentColor"/></svg>
+            <span class="ctrl-label">আগের গান</span>
+          </button>
+
+          <!-- Center GIANT Play / Pause Button -->
+          <button 
+            type="button" 
+            class="control-btn primary-play-btn" 
+            id="playPauseBtn" 
+            aria-label="গান চালান"
+            title="গান চালান বা থামান"
+          >
+            <div class="play-icon-wrap" id="playIconWrap">
+              <!-- Play Triangle -->
+              <svg viewBox="0 0 24 24" class="giant-icon play-symbol"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+            </div>
+            <span class="play-btn-caption" id="playBtnCaption">চালান</span>
+          </button>
+
+          <!-- Next Track Button -->
+          <button 
+            type="button" 
+            class="control-btn nav-btn" 
+            id="nextBtn" 
+            title="পরের গান (Next track)"
+            aria-label="পরের গান"
+          >
+            <svg viewBox="0 0 24 24" class="ctrl-icon"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" fill="currentColor"/></svg>
+            <span class="ctrl-label">পরের গান</span>
+          </button>
+
+          <!-- Repeat Mode Button -->
+          <button 
+            type="button" 
+            class="control-btn secondary-btn" 
+            id="repeatBtn" 
+            aria-pressed="false"
+            title="একই গান বারবার বাজান (Repeat)"
+            aria-label="একই গান বারবার বাজান"
+          >
+            <svg viewBox="0 0 24 24" class="ctrl-icon"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z" fill="currentColor"/></svg>
+            <span class="ctrl-label" id="repeatLabel">লুপ</span>
+          </button>
+        </div>
+
+        <!-- Secondary Controls: Big Volume Slider & Preset Melody -->
+        <div class="secondary-toolbar">
+          <!-- Volume Group -->
+          <div class="volume-box" role="group" aria-label="শব্দ মাত্রা">
+            <button type="button" class="volume-btn" id="muteToggleBtn" aria-label="শব্দ বন্ধ বা চালু">
+              <svg viewBox="0 0 24 24" class="vol-icon" id="volIcon"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" fill="currentColor"/></svg>
+            </button>
+            <div class="volume-slider-wrap">
+              <input 
+                type="range" 
+                class="custom-slider volume-slider" 
+                id="volumeBar" 
+                min="0" 
+                max="1" 
+                step="0.05" 
+                value="0.85"
+                aria-label="শব্দের পরিমাণ"
+              >
+              <div class="slider-fill" id="volumeFill" style="width: 85%;"></div>
+            </div>
+            <span class="volume-percent" id="volumePercent">৮৫%</span>
+          </div>
+
+          <!-- Built-in Serene Demo Track Button (Instant Autumn Music) -->
+          <div class="demo-track-action">
+            <button type="button" class="action-btn demo-btn" id="playDemoChantBtn">
+              <span class="btn-icon">🪕</span>
+              <span class="btn-text">শরতের আগমনী তানপুরা শুনুন</span>
+            </button>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- Playlist Management Section (Clear, Large, High Contrast) -->
+      <section class="playlist-section" aria-labelledby="playlistHeading">
+        <div class="playlist-section-header">
+          <div class="header-left">
+            <h3 class="playlist-heading" id="playlistHeading">
+              <span class="heading-icon">📜</span>
+              <span id="playlistTitleText">স্মার্ট মুড প্লেলিস্ট (বর্তমান সময়ের উপযোগী গান)</span>
+            </h3>
+            <span class="playlist-count-badge" id="playlistCount">১৩৭ টি একক গান</span>
+          </div>
+        </div>
+
+        <!-- Playlist Item Container -->
+        <div class="playlist-container" id="playlistContainer" role="list">
+          <!-- Populated dynamically by player.js -->
+          <div class="empty-playlist-placeholder" id="emptyPlaylistMsg">
+            <div class="empty-flower-icon">🪷</div>
+            <h4 class="empty-title">গান লোড হচ্ছে...</h4>
+            <p class="empty-desc">
+              শারদীয় পূজার অমর একক গান ও সুর সাজানো হচ্ছে...
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Traditional Durga Pujo Festive Notes & Nostalgia Panel -->
+      <section class="nostalgia-section" aria-labelledby="nostalgiaTitle">
+        <div class="nostalgia-card">
+          <div class="lotus-motif" aria-hidden="true">
+            <svg viewBox="0 0 100 60" class="lotus-svg">
+              <path d="M50,10 C45,28 35,42 50,55 C65,42 55,28 50,10 Z" fill="#e74c3c"/>
+              <path d="M50,20 C32,25 20,40 40,55 C45,45 48,35 50,20 Z" fill="#ec7063"/>
+              <path d="M50,20 C68,25 80,40 60,55 C55,45 52,35 50,20 Z" fill="#ec7063"/>
+              <path d="M50,30 C20,38 12,50 30,58 C40,54 46,45 50,30 Z" fill="#f1948a"/>
+              <path d="M50,30 C80,38 88,50 70,58 C60,54 54,45 50,30 Z" fill="#f1948a"/>
+            </svg>
+          </div>
+          <h3 class="nostalgia-title" id="nostalgiaTitle">শরতের স্মৃতি ও পুজোর দিনগুলি</h3>
+          <p class="nostalgia-quote">
+            “আশ্বিনের শারদপ্রাতে বেজে উঠেছে আলোক-মঞ্জীর... ধরণীর বহিরাকাশে অন্তরিত মেঘমালা... শান্ত স্নিগ্ধ সুদূর নীলে ভাসমান শুভ্র মেঘের দল।”
+          </p>
+          <div class="pujo-days-grid">
+            <div class="day-chip">
+              <span class="day-name">মহালয়া</span>
+              <span class="day-sub">মায়ের আবাহন</span>
+            </div>
+            <div class="day-chip">
+              <span class="day-name">মহা ষষ্ঠী</span>
+              <span class="day-sub">বোধন ও আমন্ত্রণ</span>
+            </div>
+            <div class="day-chip">
+              <span class="day-name">মহা সপ্তমী</span>
+              <span class="day-sub">নবপত্রিকা প্রবেশ</span>
+            </div>
+            <div class="day-chip">
+              <span class="day-name">মহা অষ্টমী</span>
+              <span class="day-sub">সন্ধিপূজা ও অঞ্জলি</span>
+            </div>
+            <div class="day-chip">
+              <span class="day-name">মহা নবমী</span>
+              <span class="day-sub">হোম ও আরতি</span>
+            </div>
+            <div class="day-chip">
+              <span class="day-name">বিজয়া দশমী</span>
+              <span class="day-sub">শুভ বিজয়ার প্রণাম</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Bottom Alpona Footer -->
+    <footer class="festive-footer" role="contentinfo">
+      <div class="alpona-bottom-border" aria-hidden="true">
+        <svg viewBox="0 0 1200 48" preserveAspectRatio="none" class="alpona-svg flip-y">
+          <path d="M0,0 L1200,0 L1200,24 Q1125,48 1050,24 Q975,0 900,24 Q825,48 750,24 Q675,0 600,24 Q525,48 450,24 Q375,0 300,24 Q225,48 150,24 Q75,0 0,24 Z" fill="currentColor"/>
+        </svg>
+      </div>
+
+      <div class="footer-content">
+        <p class="blessing-footer">
+          🌸 সকল গুরুজন ও ভালোবাসার মানুষদের জানাই শারদ প্রীতি ও শুভ বিজয়ার সশ্রদ্ধ প্রণাম 🌸
+        </p>
+        <div class="footer-creator-box">
+          <span class="footer-creator-icon">🎨</span>
+          <span class="footer-creator-text">পরিকল্পনা ও রূপায়ণে: <strong>প্রদীপ কুমার জানা (Pradip Kumar Jana)</strong></span>
+        </div>
+        <p class="copyright-note">
+          সম্পূর্ণরূপে অফলাইন ও সুরক্ষিত • আপনার গান আপনার যন্ত্রেই সংরক্ষিত থাকে • কোনো তথ্য বাইরে পাঠানো হয় না
+        </p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Floating Bottom Music Player Pill & Queue Drawer (Raju Mistri System) -->
+  <aside class="floating-player-system" aria-label="ভাসমান মিউজিক প্লেয়ার">
+    <!-- Floating Queue Drawer -->
+    <div class="playlist-drawer hidden" id="playlistDrawer">
+      <div class="drawer-header">
+        <div class="drawer-title-wrap">
+          <span class="drawer-icon">📜</span>
+          <span class="drawer-title">পূজার গানের তালিকা (<span id="drawerCount">১৩৭</span>)</span>
+        </div>
+        <button type="button" class="close-drawer-btn" id="closeDrawerBtn" aria-label="তালিকা বন্ধ করুন">✕</button>
+      </div>
+      <div class="drawer-track-list" id="drawerTrackList"></div>
+    </div>
+
+    <!-- Music Player Pill -->
+    <div class="music-player-pill" id="musicPlayerPill">
+      <!-- Left: Artwork & Live Equalizer -->
+      <div class="pill-left">
+        <div class="pill-art-wrapper" id="pillArtWrapper">
+          <span class="pill-art-icon" id="pillArtIcon">🌸</span>
+          <div class="equalizer-overlay active" id="pillEqualizer">
+            <span class="eq-bar"></span>
+            <span class="eq-bar"></span>
+            <span class="eq-bar"></span>
+          </div>
+        </div>
+        <div class="pill-track-meta">
+          <div class="pill-title-wrap">
+            <h4 class="pill-title" id="pillTrackTitle">মায়ের আগমনী — মিতা চ্যাটার্জী</h4>
+          </div>
+          <p class="pill-artist" id="pillArtistName">মিতা চ্যাটার্জী (Mita Chatterjee)</p>
+        </div>
+      </div>
+
+      <!-- Center: Scrubber & Live Time -->
+      <div class="pill-center">
+        <div class="pill-progress-container" id="pillProgressContainer">
+          <div class="pill-progress-bg">
+            <div class="pill-progress-fill" id="pillProgressFill"></div>
+            <div class="pill-progress-thumb" id="pillProgressThumb"></div>
+            <input type="range" id="pillProgressSlider" class="pill-slider" min="0" max="100" value="0" step="0.1" aria-label="গান এগিয়ে বা পিছিয়ে নেওয়া">
+          </div>
+        </div>
+        <div class="pill-time-display">
+          <span id="pillCurrentTime">0:00</span>
+          <span class="pill-time-sep">/</span>
+          <span id="pillTotalDuration">0:55</span>
+        </div>
+      </div>
+
+      <!-- Right: Main Controls & Queue Toggle -->
+      <div class="pill-right">
+        <button type="button" class="pill-ctrl-btn prev-btn" id="pillPrevBtn" title="আগের গান" aria-label="আগের গান">
+          <svg viewBox="0 0 24 24" class="pill-svg"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z" fill="currentColor"/></svg>
+        </button>
+
+        <button type="button" class="pill-ctrl-btn play-btn" id="pillPlayBtn" title="চালান বা থামান" aria-label="চালান বা থামান">
+          <svg class="pill-svg play-icon" viewBox="0 0 24 24" id="pillPlayIcon"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+        </button>
+
+        <button type="button" class="pill-ctrl-btn next-btn" id="pillNextBtn" title="পরের গান" aria-label="পরের গান">
+          <svg viewBox="0 0 24 24" class="pill-svg"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" fill="currentColor"/></svg>
+        </button>
+
+        <button type="button" class="pill-ctrl-btn queue-toggle-btn" id="pillQueueBtn" title="গানের তালিকা দেখুন" aria-label="গানের তালিকা">
+          <svg viewBox="0 0 24 24" class="pill-svg" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="8" y1="6" x2="21" y2="6"></line>
+            <line x1="8" y1="12" x2="21" y2="12"></line>
+            <line x1="8" y1="18" x2="21" y2="18"></line>
+            <circle cx="4" cy="6" r="1.5" fill="currentColor"></circle>
+            <circle cx="4" cy="12" r="1.5" fill="currentColor"></circle>
+            <circle cx="4" cy="18" r="1.5" fill="currentColor"></circle>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Autoplay Prompt Overlay (Quick touch to enable sound if blocked) -->
+  <div class="autoplay-touch-toast" id="autoplayPrompt" style="display: none;">
+    <span class="touch-icon">🌸</span>
+    <span class="touch-text">শারদীয় গান স্বয়ংক্রিয়ভাবে চলছে • শুনতে এখানে স্পর্শ করুন</span>
+    <button type="button" class="touch-btn" id="touchStartBtn">শুনুন ▶</button>
+  </div>
+
+  <!-- ========================================================
+       MODAL 1: User Music Preferences (My Music Preference)
+       ======================================================== -->
+  <div class="custom-modal-backdrop hidden" id="preferenceModal">
+    <div class="custom-modal-card preference-modal-card" role="dialog" aria-labelledby="prefModalTitle">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <span class="modal-icon">🎚️</span>
+          <h3 class="modal-title" id="prefModalTitle">আমার সঙ্গীত পছন্দ (Music Preferences)</h3>
+        </div>
+        <button type="button" class="modal-close-btn" id="closePrefModalBtn" aria-label="বন্ধ করুন">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <p class="modal-desc">
+          আপনার পছন্দ অনুযায়ী স্লাইডারগুলি পরিবর্তন করুন। স্মার্ট প্লেয়ার আপনার এই রুচি অনুযায়ী গানের প্লেলিস্ট তৈরি করবে:
+        </p>
+
+        <!-- Sliders Group (0 to 100) -->
+        <div class="pref-sliders-grid">
+          <div class="pref-slider-item">
+            <div class="slider-header-wrap">
+              <span class="pref-label">❤️ রোমান্টিক ও মিষ্টি সুর (Romantic)</span>
+              <span class="pref-value" id="valRomantic">65%</span>
+            </div>
+            <input type="range" class="pref-range-input" id="rangeRomantic" min="0" max="100" value="65" />
+          </div>
+
+          <div class="pref-slider-item">
+            <div class="slider-header-wrap">
+              <span class="pref-label">🕊️ শান্ত ও ধ্যানমগ্ন সুর (Peaceful)</span>
+              <span class="pref-value" id="valPeaceful">75%</span>
+            </div>
+            <input type="range" class="pref-range-input" id="rangePeaceful" min="0" max="100" value="75" />
+          </div>
+
+          <div class="pref-slider-item">
+            <div class="slider-header-wrap">
+              <span class="pref-label">🥁 উৎসব ও প্রাণবন্ত নাচ (Energetic)</span>
+              <span class="pref-value" id="valEnergetic">55%</span>
+            </div>
+            <input type="range" class="pref-range-input" id="rangeEnergetic" min="0" max="100" value="55" />
+          </div>
+
+          <div class="pref-slider-item">
+            <div class="slider-header-wrap">
+              <span class="pref-label">🌧️ আবেগঘন ও মেলোডি (Emotional)</span>
+              <span class="pref-value" id="valEmotional">60%</span>
+            </div>
+            <input type="range" class="pref-range-input" id="rangeEmotional" min="0" max="100" value="60" />
+          </div>
+
+          <div class="pref-slider-item">
+            <div class="slider-header-wrap">
+              <span class="pref-label">🪷 ভক্তিমূলক ও আগমনী (Devotional)</span>
+              <span class="pref-value" id="valDevotional">80%</span>
+            </div>
+            <input type="range" class="pref-range-input" id="rangeDevotional" min="0" max="100" value="80" />
+          </div>
+
+          <div class="pref-slider-item">
+            <div class="slider-header-wrap">
+              <span class="pref-label">📻 কালজয়ী ও ক্লাসিক সুর (Classic)</span>
+              <span class="pref-value" id="valClassic">75%</span>
+            </div>
+            <input type="range" class="pref-range-input" id="rangeClassic" min="0" max="100" value="75" />
+          </div>
+        </div>
+
+        <!-- Tags / Genres Toggles -->
+        <div class="pref-tags-section">
+          <h4 class="pref-sub-heading">পছন্দের জনরা ও ভাব নির্বাচন করুন:</h4>
+          <div class="pref-tags-flex" id="prefTagsContainer">
+            <button type="button" class="pref-tag-btn active" data-tag="Romantic">রোমান্টিক (Romantic)</button>
+            <button type="button" class="pref-tag-btn active" data-tag="Peaceful">শান্ত (Peaceful)</button>
+            <button type="button" class="pref-tag-btn active" data-tag="Devotional">ভক্তিগীতি (Devotional)</button>
+            <button type="button" class="pref-tag-btn active" data-tag="Classic Bengali">ক্লাসিক বাংলা (Classic)</button>
+            <button type="button" class="pref-tag-btn active" data-tag="Modern Bengali">আধুনিক বাংলা</button>
+            <button type="button" class="pref-tag-btn active" data-tag="Nostalgic">নস্টালজিক (Nostalgic)</button>
+            <button type="button" class="pref-tag-btn" data-tag="Sad/Emotional">বিরহ ও স্মৃতি</button>
+            <button type="button" class="pref-tag-btn active" data-tag="Rabindra Sangeet">রবীন্দ্রসংগীত</button>
+            <button type="button" class="pref-tag-btn active" data-tag="Agomoni">আগমনী সুর</button>
+            <button type="button" class="pref-tag-btn" data-tag="Folk">লোকসংগীত (Folk)</button>
+            <button type="button" class="pref-tag-btn" data-tag="Energetic">উৎসব ও নৃত্য</button>
+            <button type="button" class="pref-tag-btn" data-tag="Instrumental">যন্ত্রসঙ্গীত</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="modal-secondary-btn" id="resetPrefBtn">ডিফল্টে রিসেট</button>
+        <button type="button" class="modal-primary-btn" id="savePrefBtn">পছন্দ সংরক্ষণ করুন ✨</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       MODAL 2: Admin Dashboard & Library Intelligence
+       ======================================================== -->
+  <div class="custom-modal-backdrop hidden" id="adminDashboardModal">
+    <div class="custom-modal-card admin-modal-card" role="dialog" aria-labelledby="adminModalTitle">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <span class="modal-icon">⚙️</span>
+          <h3 class="modal-title" id="adminModalTitle">অ্যাডমিন ড্যাশবোর্ড ও মিউজিক ইন্টেলিজেন্স</h3>
+        </div>
+        <button type="button" class="modal-close-btn" id="closeAdminModalBtn" aria-label="বন্ধ করুন">✕</button>
+      </div>
+
+      <div class="modal-body admin-modal-body">
+        <!-- Top Metrics Cards Grid -->
+        <div class="admin-metrics-grid">
+          <div class="metric-card">
+            <span class="metric-icon">🎵</span>
+            <div class="metric-data">
+              <span class="metric-val" id="metricTotalSongs">137</span>
+              <span class="metric-lbl">মোট একক গান</span>
+            </div>
+          </div>
+          <div class="metric-card">
+            <span class="metric-icon">🎤</span>
+            <div class="metric-data">
+              <span class="metric-val" id="metricTotalArtists">38</span>
+              <span class="metric-lbl">স্বনামধন্য শিল্পী</span>
+            </div>
+          </div>
+          <div class="metric-card">
+            <span class="metric-icon">📂</span>
+            <div class="metric-data">
+              <span class="metric-val" id="metricTotalCategories">42</span>
+              <span class="metric-lbl">ক্যাটাগরি ও অ্যালবাম</span>
+            </div>
+          </div>
+          <div class="metric-card">
+            <span class="metric-icon">🧠</span>
+            <div class="metric-data">
+              <span class="metric-val" id="metricSmartStatus">সক্রিয়</span>
+              <span class="metric-lbl">স্মার্ট টাইম ইঞ্জিন</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Admin Tab Navigation -->
+        <div class="admin-tabs-nav">
+          <button type="button" class="admin-tab-btn active" data-tab="tab-overview">📊 ওভারভিউ ও বিভাজন</button>
+          <button type="button" class="admin-tab-btn" data-tab="tab-songs">🎼 গান ও মেটাডাটা ম্যানেজার</button>
+          <button type="button" class="admin-tab-btn" data-tab="tab-history">🎧 প্লে হিস্ট্রি ও পরিসংখ্যান</button>
+        </div>
+
+        <!-- Tab 1: Overview & Analytics -->
+        <div class="admin-tab-content active" id="tab-overview">
+          <div class="analytics-panels-row">
+            <!-- Moods Distribution -->
+            <div class="analytics-card">
+              <h4 class="card-heading">🎭 মুড অনুযায়ী গানের বিভাজন</h4>
+              <div class="distribution-bars-list" id="moodBarsContainer"></div>
+            </div>
+            <!-- Time Slots Distribution -->
+            <div class="analytics-card">
+              <h4 class="card-heading">🕒 ৭টি সময় স্লট অনুযায়ী গান</h4>
+              <div class="distribution-bars-list" id="timeSlotBarsContainer"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 2: Song Metadata Management Table -->
+        <div class="admin-tab-content" id="tab-songs">
+          <div class="song-table-toolbar">
+            <input type="text" id="adminSongSearch" class="admin-search-box" placeholder="গানের নাম বা শিল্পী দিয়ে খুঁজুন..." />
+            <select id="adminMoodFilter" class="admin-select-filter">
+              <option value="all">সকল মুড</option>
+              <option value="devotional">ভক্তিগীতি (Devotional)</option>
+              <option value="romantic">রোমান্টিক (Romantic)</option>
+              <option value="peaceful">শান্ত সুর (Peaceful)</option>
+              <option value="energetic">উৎসব ও নাচ (Energetic)</option>
+              <option value="nostalgic">নস্টালজিক (Nostalgic)</option>
+            </select>
+          </div>
+          <div class="admin-table-container">
+            <table class="admin-songs-table">
+              <thead>
+                <tr>
+                  <th>গান ও শিল্পী</th>
+                  <th>জনরা ও মুড</th>
+                  <th>শক্তি (Energy)</th>
+                  <th>সময় স্লট</th>
+                  <th>স্মার্ট মোড</th>
+                  <th>অ্যাকশন</th>
+                </tr>
+              </thead>
+              <tbody id="adminSongsTableBody">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Tab 3: History & Play Count Stats -->
+        <div class="admin-tab-content" id="tab-history">
+          <div class="history-grid-row">
+            <div class="history-card">
+              <h4 class="card-heading">🔥 সর্বাধিক বাজানো গান (Most Played)</h4>
+              <div class="played-list" id="mostPlayedList"></div>
+            </div>
+            <div class="history-card">
+              <h4 class="card-heading">⏱️ সম্প্রতি বাজানো হয়েছে (Recent 20)</h4>
+              <div class="played-list" id="recentPlayedList"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       MODAL 3: Song Metadata Editor (Edit Metadata Sub-Modal)
+       ======================================================== -->
+  <div class="custom-modal-backdrop hidden" id="songEditModal">
+    <div class="custom-modal-card song-edit-card" role="dialog" aria-labelledby="songEditTitle">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <span class="modal-icon">✏️</span>
+          <h3 class="modal-title" id="songEditTitle">গানের মেটাডাটা সম্পাদনা</h3>
+        </div>
+        <button type="button" class="modal-close-btn" id="closeSongEditBtn" aria-label="বন্ধ করুন">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <input type="hidden" id="editSongId" />
+        <div class="edit-field-group">
+          <label for="editSongName" class="edit-label">গানের নাম (Title):</label>
+          <input type="text" id="editSongName" class="edit-input" />
+        </div>
+        <div class="edit-field-group">
+          <label for="editSongArtist" class="edit-label">শিল্পী (Artist):</label>
+          <input type="text" id="editSongArtist" class="edit-input" />
+        </div>
+        <div class="edit-field-group">
+          <label for="editSongCategory" class="edit-label">ক্যাটাগরি / জনরা (Category):</label>
+          <input type="text" id="editSongCategory" class="edit-input" />
+        </div>
+        <div class="edit-field-group">
+          <label class="edit-label">প্রাথমিক মুড ট্যাগ (Moods):</label>
+          <div class="edit-checkboxes-grid" id="editMoodCheckboxes">
+            <label class="edit-checkbox-item"><input type="checkbox" value="devotional" /> ভক্তিমূলক (Devotional)</label>
+            <label class="edit-checkbox-item"><input type="checkbox" value="peaceful" /> শান্ত ও আধ্যাত্মিক (Peaceful)</label>
+            <label class="edit-checkbox-item"><input type="checkbox" value="romantic" /> রোমান্টিক প্রেমের গান (Romantic)</label>
+            <label class="edit-checkbox-item"><input type="checkbox" value="emotional" /> আবেগঘন ও বিরহ (Emotional)</label>
+            <label class="edit-checkbox-item"><input type="checkbox" value="energetic" /> উৎসব ও নাচ (Energetic)</label>
+            <label class="edit-checkbox-item"><input type="checkbox" value="nostalgic" /> কালজয়ী ক্লাসিক (Nostalgic)</label>
+          </div>
+        </div>
+        <div class="edit-field-group">
+          <label class="edit-label">উপযুক্ত সময় স্লট (Suitable Time Slots):</label>
+          <div class="edit-checkboxes-grid" id="editTimeCheckboxes">
+            <label class="edit-checkbox-item"><input type="checkbox" value="earlyMorning" /> ভোর (4am-7am)</label>
+            <label class="edit-checkbox-item"><input type="checkbox" value="morning" /> সকাল (7am-11am)</label>
+            <label class="edit-checkbox-item"><input type="checkbox" value="midday" /> দুপুর (11am-3pm)</label>
+            <label class="edit-checkbox-item"><input type="checkbox" value="afternoon" /> বিকেল (3pm-5:30pm)</label>
+            <label class="edit-checkbox-item"><input type="checkbox" value="evening" /> সন্ধ্যা (5:30pm-8pm)</label>
+            <label class="edit-checkbox-item"><input type="checkbox" value="night" /> রাত (8pm-11pm)</label>
+            <label class="edit-checkbox-item"><input type="checkbox" value="lateNight" /> গভীর রাত (11pm-4am)</label>
+          </div>
+        </div>
+        <div class="edit-field-group">
+          <label class="edit-checkbox-item smart-eligible-checkbox">
+            <input type="checkbox" id="editSmartEligible" checked />
+            <span>স্মার্ট প্লেলিস্ট নির্বাচনে এই গানটি অন্তর্ভুক্ত থাকবে (Smart Selection Enabled)</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="modal-secondary-btn" id="cancelSongEditBtn">বাতিল করুন</button>
+        <button type="button" class="modal-primary-btn" id="saveSongEditBtn">সংরক্ষণ করুন ✔️</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       MODAL 4: New Song Auto-Categorization Confirmation
+       ======================================================== -->
+  <div class="custom-modal-backdrop hidden" id="autoCategoryModal">
+    <div class="custom-modal-card auto-category-card" role="dialog" aria-labelledby="autoCatTitle">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <span class="modal-icon">🤖</span>
+          <h3 class="modal-title" id="autoCatTitle">নতুন গান স্বয়ংক্রিয় সনাক্তকরণ</h3>
+        </div>
+        <button type="button" class="modal-close-btn" id="closeAutoCatBtn" aria-label="বন্ধ করুন">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="detected-track-box">
+          <h4 class="detected-track-name" id="autoCatSongTitle">গান সনাক্ত করা হয়েছে</h4>
+          <p class="detected-track-artist" id="autoCatArtistName">শিল্পী: জানা নেই • ভাষা: বাংলা</p>
+        </div>
+
+        <div class="suggestion-highlight-box">
+          <span class="suggestion-badge-label">বুদ্ধিমান বিশ্লেষণ অনুযায়ী প্রস্তাবিত শ্রেণী:</span>
+          <div class="suggestion-pill" id="autoCatSuggestedPill">
+            <span class="sugg-icon">✨</span>
+            <span class="sugg-text" id="autoCatSuggestedText">রোমান্টিক বাংলা • সন্ধ্যা / রাত</span>
+          </div>
+          <div class="sugg-tags-row" id="autoCatTagsRow"></div>
+        </div>
+
+        <p class="auto-cat-question">
+          আপনি কি এই প্রস্তাবিত শ্রেণীবিভাগ অনুমোদন করতে চান?
+        </p>
+      </div>
+
+      <div class="modal-footer auto-cat-actions">
+        <button type="button" class="modal-danger-btn" id="autoCatRejectBtn">বাতিল (Reject)</button>
+        <button type="button" class="modal-secondary-btn" id="autoCatEditBtn">সম্পাদনা (Edit)</button>
+        <button type="button" class="modal-primary-btn" id="autoCatAcceptBtn">স্বীকার করুন (Accept) ✔️</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Audio Element (Hidden Core) -->
+  <audio id="mainAudioElement" preload="metadata"></audio>
+
+  <!-- Notification Toast for clear elderly feedback -->
+  <div class="toast-notification" id="toastMessage" role="status" aria-live="polite"></div>
+
+  <!-- Scripts -->
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script src="db.js"></script>
+  <script src="services/moodClassifier.js"></script>
+  <script src="services/timeBasedPlaylist.js"></script>
+  <script src="services/listeningHistory.js"></script>
+  <script src="services/smartShuffle.js"></script>
+  <script src="services/userPreferences.js"></script>
+  <script src="services/eventWeatherBridge.js"></script>
+  <script src="services/recommendationEngine.js"></script>
+  <script src="services/adminManager.js"></script>
+  <script src="audio-generator.js"></script>
+  <script src="player.js?v=2.2"></script>
+</body>
+</html>

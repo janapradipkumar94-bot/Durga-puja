@@ -1,0 +1,9 @@
+# Logs and environment
+*.log
+__pycache__/
+*.pyc
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
